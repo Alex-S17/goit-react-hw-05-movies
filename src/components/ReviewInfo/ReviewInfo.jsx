@@ -14,3 +14,4 @@ ReviewInfo.propTypes = {
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
 };
+
