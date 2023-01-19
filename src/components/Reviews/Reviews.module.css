@@ -1,0 +1,12 @@
+.reviewTitle {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.ifNoReview {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(224, 24, 24);  
+}
