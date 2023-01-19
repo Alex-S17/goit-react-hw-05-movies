@@ -6,15 +6,14 @@ import css from "./Home.module.css";
 
 function Home() {
   const [trandingMovies, setTrandingMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     requestTrandingMovies()
       .then(response => {
         setTrandingMovies(response.results)
-      });
-    setLoading(false);
+        setLoading(false);
+      }).finally(setLoading(true));      
   }, []);
 
   return (

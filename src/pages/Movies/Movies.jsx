@@ -18,7 +18,6 @@ function  Movies() {
     if (queryFromURL === '') {
       return;
     }
-    setLoading(true);
     requestMovieByName(queryFromURL)
       .then(response => {
         setFoundMovies(response.results)
@@ -29,8 +28,8 @@ function  Movies() {
             theme: "colored",
           });
         };
-      });
-    setLoading(false);
+        setLoading(false);
+      }).finally(setLoading(true));
   }, [queryFromURL]);
 
   const handleSubmit = (inputedQuery) => {

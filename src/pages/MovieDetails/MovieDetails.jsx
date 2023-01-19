@@ -3,25 +3,22 @@ import { requestMoviesByID } from "../../services/requestMovies";
 import { useState, useEffect } from "react";
 import { Dna } from 'react-loader-spinner';
 import { PATH_TO_IMAGES } from "../../services/requestMovies";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Suspense } from "react";
 import css from "./MovieDetails.module.css";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieInfo, setMovieInfo] = useState({});
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     requestMoviesByID(movieId)
-      .then(response => setMovieInfo(response));
-    setLoading(false);
+      .then(response => setMovieInfo(response));     
   }, [movieId]);
 
   const {
-    id,
     original_title,
     vote_average,
     overview,
@@ -55,7 +52,11 @@ const MovieDetails = () => {
       <div className={css.movieInfoWrapper}>
         <h1 className={css.titleHeader}>{original_title}</h1>
         <div className={css.innerBlockWrapper}>
-          <img src={PATH_TO_IMAGES + poster_path} alt={original_title} width={300} />
+          <img
+            onLoad={() => setLoading(false)}
+            src={PATH_TO_IMAGES + poster_path}
+            alt={original_title}
+            width={300} />
           <div className={css.textInfoWrapper}>
             <p className={`${css.text} ${css.textScore}`}>User score: {voteAverage}%</p>
             <h2 className={css.overviewHeader}>Overview</h2>
@@ -64,20 +65,20 @@ const MovieDetails = () => {
             <p className={`${css.text} ${css.textGenres}`}>{movieGenres}</p>
             <h2 className={css.addInfoHeader}>Additional information</h2>
             <nav className={css.navigation}>
-              <NavLink
+              <Link
                 className={css.infoLink}
-                to={`/movies/${id}/cast`}
-                state={{ from: location.state.from }}
+                to='cast'
+                state={{ from: backHref  }}
               >
                 Cast
-              </NavLink>
-              <NavLink
+              </Link>
+              <Link
                 className={css.infoLink}
-                to={`/movies/${id}/reviews`}
-                state={{ from: location.state.from }}
+                to='reviews'
+                state={{ from: backHref }}
               >
                 Reviews
-              </NavLink>
+              </Link>
             </nav>
           </div>
         </div>
@@ -90,3 +91,6 @@ const MovieDetails = () => {
 };
 export default MovieDetails;
 
+
+
+// location.state.from
